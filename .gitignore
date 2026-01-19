@@ -1,5 +1,2 @@
 backend/data.pkl
-backend/similarity.pkl 
-
-git filter-repo --path backend/similarity.pkl --invert-paths
-
+backend/similarity.pkl
