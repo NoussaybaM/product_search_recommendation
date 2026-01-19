@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Product } from "./types";
+import type { Product } from "./types";
 
 const API = "http://localhost:8000";
 

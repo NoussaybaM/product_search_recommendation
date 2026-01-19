@@ -5,6 +5,7 @@ interface Props {
 
 export default function SearchBox({ products, onSelect }: Props) {
   return (
+    <>
     <input
       list="products"
       className="border p-2 w-96 rounded"
@@ -14,5 +15,7 @@ export default function SearchBox({ products, onSelect }: Props) {
     <datalist id="products">
       {products.map(p => <option key={p} value={p} />)}
     </datalist>
+        </>
+
   );
 }
