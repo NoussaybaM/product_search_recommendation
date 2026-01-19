@@ -37,6 +37,13 @@ export default function App() {
         >
           Search
         </button>
+            <button
+      type="button"
+      onClick={handleReset}
+      className="ml-2 px-4 py-2 border rounded"
+    >
+      Reset
+    </button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
