@@ -30,7 +30,7 @@ export default function App() {
       </h1>
 
       <div className="flex gap-4">
-        <SearchBox products={products} value={selected} onSelect={setSelected} onReset={handleReset} />
+        <SearchBox products={products} value={selected} onSelect={setSelected} />
         <button
           onClick={search}
           className="bg-black text-white px-6 rounded"

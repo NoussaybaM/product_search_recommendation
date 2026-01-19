@@ -2,7 +2,6 @@ interface Props {
   products: string[];
   value: string;
   onSelect: (value: string) => void;
-  // onReset: ()=> void;
 }
 
 export default function SearchBox({ products, value, onSelect }: Props) {
