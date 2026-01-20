@@ -29,7 +29,7 @@ export default function App() {
         Product Recommendation Engine
       </h1>
 
-      <div className="flex gap-4">
+      <div className="flex-search-container">
         <SearchBox products={products} value={selected} onSelect={setSelected} />
         <button
           onClick={search}

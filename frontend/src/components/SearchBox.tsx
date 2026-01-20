@@ -9,7 +9,7 @@ export default function SearchBox({ products, value, onSelect }: Props) {
     <>
     <input
       list="products"
-      className="border p-2 w-96 rounded"
+      className="border p-2 w-full rounded"
       placeholder="Search product..."
       value ={value}
       onChange={(e) => onSelect(e.target.value)}

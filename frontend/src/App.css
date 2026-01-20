@@ -40,3 +40,18 @@
 .read-the-docs {
   color: #888;
 }
+
+.flex-search-container {
+  display: flex;
+  gap: 0.5rem;           /* space between input and buttons */
+  max-width: 960px;       /* control max width */
+  margin: 0 auto;         /* center horizontally */
+  align-items: center;    /* vertical align input + buttons */
+}
+
+.flex-search-container button {
+  padding: 1rem 1.5rem;  /* make buttons taller to match input */
+  font-size: 1.1rem;     /* slightly larger text */
+  border-radius: 12px;
+  cursor: pointer;
+}
