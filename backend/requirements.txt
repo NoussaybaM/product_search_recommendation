@@ -2,3 +2,4 @@ fastapi
 uvicorn
 pandas
 numpy
+elasticsearch==8.11.1
