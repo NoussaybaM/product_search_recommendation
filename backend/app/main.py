@@ -1,3 +1,4 @@
+import time
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .recommender import recommend
@@ -29,8 +30,24 @@ def get_recommendations(req: RecommendRequest):
 es = Elasticsearch("http://elasticsearch:9200")
 
 
+def wait_for_elasticsearch(es_client, retries=10, delay=3):
+    """
+    Wait until Elasticsearch is reachable.
+    """
+    for i in range(retries):
+        try:
+            if es_client.ping():
+                print("Elasticsearch is up and running!")
+                return True
+        except ConnectionError:
+            print(f"Waiting for Elasticsearch... ({i+1}/{retries})")
+        time.sleep(delay)
+    raise Exception("Elasticsearch is not reachable after waiting.")
+
+
 @app.on_event("startup")
 def startup():
+    wait_for_elasticsearch(es)
     create_index(es)
     products = load_products("data/products.csv")
     index_products(es, products)
@@ -44,12 +61,12 @@ def search_products(q: str):
         query={
             "multi_match": {  # Elasticsearch will search for the query string in multiple fields of documents.
                 "query": q,
-                "fields": ["name^3", "description"],
+                "fields": ["name^3", "main_category"],
             }
         },
         size=10,
         highlight={
-            "fields": {"name": {}, "description": {}}
+            "fields": {"name": {}, "main_category": {}}
         },  # Tells Elasticsearch to highlight matched terms in the results.{} means default highlighting.The API will return the matched text wrapped in tags (like <em>) for easy display on a frontend.
     )
     return [
