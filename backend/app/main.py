@@ -54,25 +54,77 @@ def startup():
 
 
 # /search?q=bluetooth+headphones
+# @app.get("/search")
+# def search_products(q: str):
+#     res = es.search(
+#         index="products",
+#         query={
+#             "multi_match": {  # Elasticsearch will search for the query string in multiple fields of documents.
+#                 "query": q,
+#                 "fields": ["name^3", "main_category"],
+#             }
+#         },
+#         size=10,
+#         highlight={
+#             "fields": {"name": {}, "main_category": {}}
+#         },  # Tells Elasticsearch to highlight matched terms in the results.{} means default highlighting.The API will return the matched text wrapped in tags (like <em>) for easy display on a frontend.
+#     )
+#     return [
+#         {"name": hit["_source"]["name"], "image": hit["_source"]["image"]}
+#         for hit in res["hits"]["hits"]
+#     ]
+# improved search
 @app.get("/search")
 def search_products(q: str):
-    res = es.search(
-        index="products",
-        query={
-            "multi_match": {  # Elasticsearch will search for the query string in multiple fields of documents.
-                "query": q,
-                "fields": ["name^3", "main_category"],
-            }
-        },
-        size=10,
-        highlight={
-            "fields": {"name": {}, "main_category": {}}
-        },  # Tells Elasticsearch to highlight matched terms in the results.{} means default highlighting.The API will return the matched text wrapped in tags (like <em>) for easy display on a frontend.
-    )
+    query = {
+        "bool": {
+            "should": [
+                {"match_phrase": {"name": {"query": q, "boost": 5}}},
+                {"match": {"name": {"query": q, "boost": 3, "fuzziness": "AUTO"}}},
+                {"term": {"main_category": {"value": q, "boost": 2}}},
+                {"term": {"sub_category": {"value": q, "boost": 1.5}}},
+            ]
+        }
+    }
+
+    res = es.search(index="products", query=query, size=10)
+
     return [
-        {"name": hit["_source"]["name"], "image": hit["_source"]["image"]}
+        {"id": hit["_id"], "name": hit["_source"]["name"], "score": hit["_score"]}
         for hit in res["hits"]["hits"]
     ]
+
+
+# query = {
+#     "function_score": {
+#         "query": {
+#             "match": {
+#                 "name": {
+#                     "query": q,
+#                     "fuzziness": "AUTO"
+#                 }
+#             }
+#         },
+#         "functions": [
+#             {
+#                 "field_value_factor": {
+#                     "field": "ratings",
+#                     "factor": 1.5,
+#                     "missing": 0
+#                 }
+#             },
+#             {
+#                 "field_value_factor": {
+#                     "field": "no_of_ratings",
+#                     "factor": 0.01,
+#                     "missing": 0
+#                 }
+#             }
+#         ],
+#         "boost_mode": "sum",
+#         "score_mode": "sum"
+#     }
+# }
 
 
 @app.get("/filter")

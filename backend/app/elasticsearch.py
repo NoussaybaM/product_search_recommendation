@@ -54,6 +54,49 @@ def create_index(es):
         es.indices.create(index="products", body=mapping)
 
 
+# with analyzers
+# def create_index(es):
+#     mapping = {
+#         "settings": {
+#             "analysis": {
+#                 "analyzer": {
+#                     "product_analyzer": {
+#                         "type": "custom",
+#                         "tokenizer": "standard",
+#                         "filter": ["lowercase", "english_stemmer"]
+#                     }
+#                 },
+#                 "filter": {
+#                     "english_stemmer": {
+#                         "type": "stemmer",
+#                         "language": "english"
+#                     }
+#                 }
+#             }
+#         },
+#         "mappings": {
+#             "dynamic": "false",
+#             "properties": {
+#                 "name": {
+#                     "type": "text",
+#                     "analyzer": "product_analyzer"
+#                 },
+#                 "main_category": {"type": "keyword"},
+#                 "sub_category": {"type": "keyword"},
+#                 "image": {"type": "keyword"},
+#                 "link": {"type": "keyword"},
+#                 "ratings": {"type": "float"},
+#                 "no_of_ratings": {"type": "integer"},
+#                 "discount_price": {"type": "float"},
+#                 "actual_price": {"type": "float"},
+#             },
+#         }
+#     }
+
+#     if not es.indices.exists(index="products"):
+#         es.indices.create(index="products", body=mapping)
+
+
 def index_products(es, products):
     actions = [{"_index": "products", "_source": product} for product in products]
     helpers.bulk(es, actions)
