@@ -24,6 +24,7 @@ def load_products(csv_path: str):
             "discount_price": 0.0,
             "actual_price": 0.0,
             "name": "",
+            "image": "",
             "main_category": "",
             "sub_category": "",
         }
@@ -39,6 +40,7 @@ def create_index(es):
                 "name": {"type": "text"},
                 "main_category": {"type": "keyword"},
                 "sub_category": {"type": "keyword"},
+                "image": {"type": "keyword"},
                 "ratings": {"type": "float"},
                 "no_of_ratings": {"type": "integer"},
                 "discount_price": {"type": "float"},

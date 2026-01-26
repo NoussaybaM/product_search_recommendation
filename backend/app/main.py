@@ -70,7 +70,7 @@ def search_products(q: str):
         },  # Tells Elasticsearch to highlight matched terms in the results.{} means default highlighting.The API will return the matched text wrapped in tags (like <em>) for easy display on a frontend.
     )
     return [
-        {"id": hit["_id"], "name": hit["_source"]["name"]}
+        {"name": hit["_source"]["name"], "image": hit["_source"]["image"]}
         for hit in res["hits"]["hits"]
     ]
 

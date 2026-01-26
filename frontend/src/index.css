@@ -81,4 +81,22 @@ input[list="products"]:focus {
   box-shadow: 0 0 5px rgba(100, 108, 255, 0.5);
 }
 
+/* index.css or app.css */
+
+.flex-search-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+}
+
+input[list="products"] {
+  flex: 1;
+  min-width: 200px;
+}
+
+button {
+  min-width: 80px;
+}
 

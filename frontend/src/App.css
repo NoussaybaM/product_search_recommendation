@@ -55,3 +55,22 @@
   border-radius: 12px;
   cursor: pointer;
 }
+/* index.css or app.css */
+
+.flex-search-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+}
+
+input[list="products"] {
+  flex: 1;
+  min-width: 200px;
+}
+
+button {
+  min-width: 80px;
+}
+
